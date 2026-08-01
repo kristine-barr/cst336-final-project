@@ -1,0 +1,28 @@
+{
+  "name": "cst336-final-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --env-file .env index.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kristine-barr/cst336-final-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/kristine-barr/cst336-final-project/issues"
+  },
+  "homepage": "https://github.com/kristine-barr/cst336-final-project#readme",
+  "dependencies": {
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "mysql2": "^3.23.2",
+    "nodemon": "^3.0.2"
+  }
+}
