@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Library</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+    <h1>My Library</h1>
+
+    <p>View and manage your saved books.</p>
+
+    <div class="books-container">
+
+        <% if (books.length === 0) { %>
+
+            <p>You have not added any books yet.</p>
+
+        <% } else { %>
+
+            <% for (let i = 0; i < books.length; i++) { %>
+
+                <div class="book-card">
+
+                    <h2><%= books[i].title %></h2>
+
+                    <p>
+                        <strong>Author:</strong>
+                        <%= books[i].author %>
+                    </p>
+
+                    <p>
+                        <strong>Published:</strong>
+                        <%= books[i].publishYear %>
+                    </p>
+
+                    <p>
+                        <strong>ISBN:</strong>
+                        <%= books[i].isbn %> 
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>
+                        <%= books[i].readingStatus %>
+                    </p>
+
+                    <p>
+                        <strong>Rating:</strong>
+                        <%= books[i].rating %>
+                    </p>
+
+                    <p>
+                        <strong>Category:</strong>
+                        <%= books[i].categories %>
+                    </p>
+
+                    <div class="book-actions">
+                        <a href="/book/edit">Edit</a>
+
+                        <form method="GET" action="/book/delete">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </div>
+
+                </div>
+
+            <% } %>
+
+        <% } %>
+
+    </div>
+    <br>
+
+    <a href="/dashboard">Back to Dashboard</a>
+
+</body>
+
+</html>

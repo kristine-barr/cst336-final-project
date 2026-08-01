@@ -12,53 +12,32 @@
 
 <body>
 
-    <h1>Happy Reading!</h1>
+    <div class="hero">
 
-    <p>Manage your personal bookshelf.</p>
+        <img src="/img/welcome-logo.png" alt="Open book illustration">
 
-    <div class="dashboard-buttons">
-        <a href="/library">My Library</a>
-        <a href="/book/search">Search Books</a>
+        <p>Manage your personal bookshelf and discover new books.</p>
     </div>
 
-    <h2>Recently Added</h2>
+    <div class="dashboard-options">
 
-    <div class="books-container">
+        <div class="dashboard-card">
 
-        <% if (books.length===0) { %>
+            <h2>My Library</h2>
 
-            <p>You have not added any books yet.</p>
+            <p>View and manage the books you have saved.</p>
+            <a href="/library">View My Library </a>
 
-            <% } else { %>
+        </div>
 
-                <% for (let i=0; i < books.length; i++) { %>
+        <div class="dashboard-card">
 
-                    <div class="book-card">
+            <h2>Search Books</h2>
 
-                        <h3>
-                            <%= books[i].title %>
-                        </h3>
+            <p>Search for books and add them to your collection.</p>
+            <a href="/book">Search Books</a>
 
-                        <p>
-                            <strong>Author:</strong>
-                            <%= books[i].author %>
-                        </p>
-
-                        <p>
-                            <strong>Status:</strong>
-                            <%= books[i].readingStatus %>
-                        </p>
-
-                        <p>
-                            <strong>Rating:</strong>
-                            <%= books[i].rating %>
-                        </p>
-
-                    </div>
-
-                    <% } %>
-
-                        <% } %>
+        </div>
 
     </div>
 
