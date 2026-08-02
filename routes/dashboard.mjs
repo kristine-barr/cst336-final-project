@@ -11,7 +11,6 @@ import pool from "../db.mjs";
 // Display the Dashboard 
 router.get("/dashboard", (req, res) => {
 
-    // Send the books to the dashboard 
     res.render("./dashboard/index");
 });
 
@@ -20,39 +19,73 @@ router.get("/dashboard", (req, res) => {
 // ======================
 
 // Display the user's saved books 
-router.get("/library", (req, res) => {
+router.get("/library", async function (req, res) {
     
-    // TODO: 
-    // Replace sample data with a MySQL query once 
-    // the Books and User_Books tables are completed. 
+    try {
 
-    // Temporary sample data 
-    let books = [
-        {
-            title: "The Hobbit",
-            author: "J.R.R. Tolkien",
-            isbn: "9780547928227",
-            publishYear: 1937, 
-            readingStatus: "Reading",
-            rating: "★★★★★",
-            categories: "Fantasy"
-        },
-        {
-            title: "Dune",
-            author: "Frank Herbert",
-            isbn: "9780441172719",
-            readingStatus: "Finished",
-            rating: "★★★★",
-            categories: "Science Fiction"
-        }
-    ];
+        // Temporary user ID until login sessions are connected
+        let userId = 1;
 
-    // Send the books to the My Library page  
-    res.render("./dashboard/library", {
-        books:books
-    });
+        let sql = `
+            SELECT
+                User_Books.userBookId,
+                Books.title,
+                Books.author,
+                Books.isbn,
+                Books.publishYear,
+                User_Books.readingStatus,
+                User_Books.rating
+            FROM User_Books
+            INNER JOIN Books
+                ON User_Books.bookId = Books.bookId
+            WHERE User_Books.userId = ?
+            ORDER BY Books.title
+        `;
+
+        const [rows] = await pool.query(sql, [userId]);
+
+        res.render("./dashboard/library", {
+            books: rows
+        });
+
+    } catch (err) {
+
+        console.error("Library database error:", err);
+        console.error("Error details:", err.errors);
+
+        res.status(500).send("Unable to load the library.");
+    }
 });
 
-// Delete the selected book 
+// ======================
+// Delete Book Route
+// ======================
+
+// Remove a book from the user's library 
+router.post("/library/delete", async function(req, res) {
+    try {
+        // Get the selected userBookId from the form
+        let userBookId = req.body.userBookId;
+
+        // Temporary user ID until login sessions are connected 
+        let userId = 1; 
+
+        // Delete only the selected book belonging to this user 
+        let sql = `
+            DELETE FROM User_Books
+            WHERE userBookId = ?
+            AND userId = ?
+        `;
+
+        await pool.query(sql, [userBookId, userId]);
+
+        res.redirect("/library");
+
+    }
+    catch (err) {
+        console.error("Delete book error:", err);
+        res.status(500).send("Unable to remove the book.");
+    }
+});
 
 export default router;

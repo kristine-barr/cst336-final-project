@@ -18,61 +18,67 @@
 
     <div class="books-container">
 
-        <% if (books.length === 0) { %>
+        <% if (books.length===0) { %>
 
             <p>You have not added any books yet.</p>
 
-        <% } else { %>
+            <% } else { %>
 
-            <% for (let i = 0; i < books.length; i++) { %>
+                <% for (let i=0; i < books.length; i++) { %>
 
-                <div class="book-card">
+                    <div class="book-card">
 
-                    <h2><%= books[i].title %></h2>
+                        <h2>
+                            <%= books[i].title %>
+                        </h2>
 
-                    <p>
-                        <strong>Author:</strong>
-                        <%= books[i].author %>
-                    </p>
+                        <p>
+                            <strong>Author:</strong>
+                            <%= books[i].author %>
+                        </p>
 
-                    <p>
-                        <strong>Published:</strong>
-                        <%= books[i].publishYear %>
-                    </p>
+                        <p>
+                            <strong>Published:</strong>
+                            <%= books[i].publishYear %>
+                        </p>
 
-                    <p>
-                        <strong>ISBN:</strong>
-                        <%= books[i].isbn %> 
-                    </p>
+                        <p>
+                            <strong>ISBN:</strong>
+                            <%= books[i].isbn %>
+                        </p>
 
-                    <p>
-                        <strong>Status:</strong>
-                        <%= books[i].readingStatus %>
-                    </p>
+                        <p>
+                            <strong>Status:</strong>
+                            <%= books[i].readingStatus %>
+                        </p>
 
-                    <p>
-                        <strong>Rating:</strong>
-                        <%= books[i].rating %>
-                    </p>
+                        <p>
+                            <strong>Rating:</strong>
+                            <%= books[i].rating %>
+                        </p>
 
-                    <p>
-                        <strong>Category:</strong>
-                        <%= books[i].categories %>
-                    </p>
 
-                    <div class="book-actions">
-                        <a href="/book/edit">Edit</a>
+                        <div class="book-actions">
+                            <a href="/book/edit?userBookId=<%= books[i].userBookId %>">
+                                Edit
+                            </a>
 
-                        <form method="GET" action="/book/delete">
-                            <button type="submit">Delete</button>
-                        </form>
+                            <form method="POST" action="/library/delete">
+
+                                <input type="hidden" name="userBookId" value="<%= books[i].userBookId %>">
+
+                                <button type="submit" onclick="return confirm('Remove this book from your library?')">
+                                    Delete
+                                </button>
+                            </form>
+
+                        </div>
+
                     </div>
 
-                </div>
+                    <% } %>
 
-            <% } %>
-
-        <% } %>
+                        <% } %>
 
     </div>
     <br>
