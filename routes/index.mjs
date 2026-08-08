@@ -2,6 +2,8 @@ import { Router } from 'express';
 import bookRouter from './book.mjs';
 import adminRouter from './admin.mjs';
 import dashboardRouter from "./dashboard.mjs";
+import categoryRouter from "./category.mjs";
+import editBookRouter from "./EdBook.mjs";
 
 const router = Router();
 
@@ -9,5 +11,7 @@ const router = Router();
 router.use('/', bookRouter);
 router.use('/', adminRouter);
 router.use('/', dashboardRouter);
+router.use("/", categoryRouter);
+router.use("/", editBookRouter);
 
 export default router;

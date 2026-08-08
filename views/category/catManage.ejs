@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Library - Category Management</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <form method="POST" action="/categories/new">
+        <label for="categoryName">New Category:</label>
+
+        <input
+            type="text"
+            id="categoryName"
+            name="categoryName"
+            required
+        >
+
+        <button type="submit">Create Category</button>
+    </form>
+    <br>
+
+    <form method="POST" action="/categories/assign">
+
+    Add the book:
+    <select id="bookSelect" name="userBookId" required>
+        <% if (books.length === 0) { %>
+            <option value="">
+                You have no books
+            </option>
+        <% } else { %>
+            <option value="">Select a book</option>
+            <% for (const book of books) { %>
+                <option value="<%= book.userBookId %>">
+                    <%= book.title %>
+                </option>
+            <% } %>
+        <% } %>
+    </select>
+    to the category:
+    <select id="categorySelect" name="categoryId" required>
+        <% if (categories.length === 0) { %>
+            <option value="">
+                You have no categories
+            </option>
+        <% } else { %>
+            <option value="">Select a category</option>
+            <% for (const category of categories) { %>
+                <option value="<%= category.categoryId %>">
+                    <%= category.categoryName %>
+                </option>
+            <% } %>
+        <% } %>
+    </select>
+    <br>
+    <button type="submit">Go!</button>
+</form>
+
+<form method="POST" action="/categories/remove">
+
+    From the category:
+    <select id="removeCategorySelect" name="categoryId" required>
+        <% if (categories.length === 0) { %>
+            <option value="">You have no categories</option>
+        <% } else { %>
+            <option value="">Select a category</option>
+
+            <% for (const category of categories) { %>
+                <option value="<%= category.categoryId %>">
+                    <%= category.categoryName %>
+                </option>
+            <% } %>
+        <% } %>
+    </select>
+
+    Remove the book:
+    <select id="removeBookSelect" name="userBookId" required>
+        <% if (books.length === 0) { %>
+            <option value="">You have no books</option>
+        <% } else { %>
+            <option value="">Select a book</option>
+
+            <% for (const book of books) { %>
+                <option value="<%= book.userBookId %>">
+                    <%= book.title %>
+                </option>
+            <% } %>
+        <% } %>
+    </select>
+    <br>
+    <button type="submit">Remove</button>
+</form>
+<% if (message) { %>
+    <p class="message"><%= message %></p>
+<% } %>
+    <a href="/dashboard">Back to Dashboard</a>
+</body>
