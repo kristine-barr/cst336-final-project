@@ -34,11 +34,24 @@ router.get("/library", async function (req, res) {
                 Books.isbn,
                 Books.publishYear,
                 User_Books.readingStatus,
-                User_Books.rating
+                User_Books.rating,
+                GROUP_CONCAT(Categories.categoryName SEPARATOR ', ') AS categories
             FROM User_Books
             INNER JOIN Books
                 ON User_Books.bookId = Books.bookId
+            LEFT JOIN User_Book_Categories
+                ON User_Books.userBookId = User_Book_Categories.userBookId
+            LEFT JOIN Categories 
+                ON User_Book_Categories.categoryId = Categories.categoryId
             WHERE User_Books.userId = ?
+            GROUP BY 
+                User_Books.userBookId,
+                Books.title,
+                Books.author, 
+                Books.isbn,
+                Books.publishYear, 
+                User_Books.readingStatus, 
+                User_Books.rating
             ORDER BY Books.title
         `;
 

@@ -57,6 +57,16 @@
                             <%= books[i].rating %>
                         </p>
 
+                        <p>
+                            <strong>Categories:</strong>
+
+                            <% if (books[i].categories) { %>
+                                <%= books[i].categories %>
+                            <% } else { %>
+                                None
+                            <% } %>
+                        </p>
+
 
                         <div class="book-actions">
                             <a href="/book/edit?userBookId=<%= books[i].userBookId %>">
