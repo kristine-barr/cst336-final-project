@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+    <%- include("../partials/head") %>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -12,30 +14,51 @@
 
 <body>
 
+    <%- include("../partials/nav") %>
+
     <div class="hero">
 
         <img src="/img/welcome-logo.png" alt="Open book illustration">
 
         <p>Manage your personal bookshelf and discover new books.</p>
+
     </div>
 
-    <div class="dashboard-options">
+    <div class="container">
 
-        <div class="dashboard-card">
+        <div class="row justify-content-center g-4">
 
-            <h2>My Library</h2>
+            <div class="col-md-4">
 
-            <p>View and manage the books you have saved.</p>
-            <a href="/library">View My Library </a>
+                <div class="card p-4 h-100">
 
-        </div>
+                    <h2>My Library</h2>
 
-        <div class="dashboard-card">
+                    <p>View and manage the books you have saved.</p>
 
-            <h2>Search Books</h2>
+                    <a href="/library" class="btn btn-primary">
+                        View My Library
+                    </a>
 
-            <p>Search for books and add them to your collection.</p>
-            <a href="/book">Search Books</a>
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="card p-4 h-100">
+
+                    <h2>Search Books</h2>
+
+                    <p>Search for books and add them to your collection.</p>
+
+                    <a href="/book" class="btn btn-primary">
+                        Search Books
+                    </a>
+
+                </div>
+
+            </div>
 
         </div>
 
