@@ -1,12 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <%- include('../partials/head') %>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- add the partials for head and footer. this is a dem -->
-    <title>Document</title>
+    <title>Book Search</title>
+
 </head>
 <body>
+    <% const safeSearch = typeof search !== 'undefined' ? search : { title: '', author: '' }; %>
+    <% const safeResults = Array.isArray(results) ? results : []; %>
+    <% const safeError = typeof error === 'string' ? error : null; %>
+
+    <h1>Book Search</h1>
+    <p>Search OpenLibrary by title, author, or both.</p>
+
+    <form method="get" action="/book/search">
+        <label for="title">Title</label>
+        <input id="title" name="title" type="text" value="<%= safeSearch.title || '' %>">
+
+        <label for="author">Author</label>
+        <input id="author" name="author" type="text" value="<%= safeSearch.author || '' %>">
+
+        <button type="submit">Search</button>
+    </form>
+
+    <% if (safeError) { %>
+        <p style="color: #b00020;"><%= safeError %></p>
+    <% } %>
+
+    <h2>Results (<%= safeResults.length %>)</h2>
+
+    <% if (safeResults.length > 0) { %>
+        <form method="POST" action="/book/save">
+            <ul>
+                <% safeResults.forEach((book) => { %>
+                    <li class="mb-3">
+                        <div id="<%= book.key %>" class="book-item" data-id="<%= book.key %>">
+                            <% if (book.coverUrl) { %>
+                                <img src="<%= book.coverUrl %>" alt="Cover for <%= book.title %>" width="180" name="coverUrl" data-cover-url="<%= book.coverUrl %>">
+                            <% } %>
+                            <div name="title" data-title="<%= book.title %>"><strong><%= book.title %></strong></div>
+                            <div name="author" data-author="<%= book.author %>"><%= book.author %></div>
+                            <div name="year" data-year="<%= book.year || 'Unknown year' %>"><%= book.year || 'Unknown year' %></div>
+                            <div name="isbn" data-isbn="<%= book.isbn %>">ISBN:<%= book.isbn || 'Unknown ISBN' %></div>
+                            <button name="editionKey" data-edition-key="<%= book.editionKey %>">Save Book</button>
+                        </div>
+                    </li>
+                <% }) %>
+            </ul>
+        </form>
+    <% } %>
+    <script src="/js/book.js"></script>
     <h1>Books page</h1>
     <p>Demo of the book router and index</p>
 

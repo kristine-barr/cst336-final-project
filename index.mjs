@@ -15,9 +15,9 @@ app.set("view engine", "ejs");
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Allows Express to read form data submitted using POST
+//for Express to get values using POST method
 app.use(express.urlencoded({ extended: true }));
-
+app.use(express.json());
 
 // all the routes are registered in /routes/index.mjs
 // this will allow us to keep the index.mjs slim.
