@@ -23,6 +23,19 @@ app.use('/', (req, res) => {
     res.render("index");
 });
 
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  console.error("Request failed:", err.message);
+
+  if (req.path.startsWith("/api/")) {
+    return res.status(statusCode).json({
+      error: err.message || "Unexpected server error.",
+    });
+  }
+
+  return res.status(statusCode).render("index");
+});
+
 
 app.listen(3000, () => {
   console.log("Express server running. http://localhost:3000");
