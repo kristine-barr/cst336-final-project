@@ -3,11 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- add the partials for head and footer. this is a dem -->
-    <title>Document</title>
+    <title>Book Search</title>
 </head>
 <body>
-    <h1>Books page</h1>
-    <p>Demo of the book router and index</p>
+    <% const safeSearch = typeof search !== 'undefined' ? search : { title: '', author: '' }; %>
+    <% const safeResults = Array.isArray(results) ? results : []; %>
+    <% const safeError = typeof error === 'string' ? error : null; %>
+
+    <h1>Book Search</h1>
+    <p>Search OpenLibrary by title, author, or both.</p>
+
+    <form method="get" action="/book/search">
+        <label for="title">Title</label>
+        <input id="title" name="title" type="text" value="<%= safeSearch.title || '' %>">
+
+        <label for="author">Author</label>
+        <input id="author" name="author" type="text" value="<%= safeSearch.author || '' %>">
+
+        <button type="submit">Search</button>
+    </form>
+
+    <% if (safeError) { %>
+        <p style="color: #b00020;"><%= safeError %></p>
+    <% } %>
+
+    <h2>Results (<%= safeResults.length %>)</h2>
+
+    <% if (safeResults.length > 0) { %>
+        <ul>
+            <% safeResults.forEach((book) => { %>
+                <li>
+                    <% if (book.coverUrl) { %>
+                        <img src="<%= book.coverUrl %>" alt="Cover for <%= book.title %>" width="64">
+                    <% } %>
+                    <div><strong><%= book.title %></strong></div>
+                    <div><%= book.author %></div>
+                    <div><%= book.year || 'Unknown year' %></div>
+                </li>
+            <% }) %>
+        </ul>
+    <% } %>
 </body>
 </html>
