@@ -13,7 +13,7 @@ router.get("/book", (req, res) => {
 });
 
 router.get("/book/search", async (req, res) => {
-  const title = typeof req.query.title === "string" ? req.query.title : "";
+  const title = typeof req. query.title === "string" ? req.query.title : "";
   const author = typeof req.query.author === "string" ? req.query.author : "";
 
   try {
@@ -25,6 +25,7 @@ router.get("/book/search", async (req, res) => {
     });
   } catch (error) {
     const status = error.statusCode || 500;
+    console.error(error);
     return res.status(status).render("./book/index", {
       search: { title, author },
       results: [],
@@ -52,24 +53,45 @@ router.post("/book/save", async (req, res) => {
     let [bookInfo] = await conn.query(`select * from Books where olId = ?`, [
       olId,
     ]);
-    let bookId;
-
-    // if empty result, then insert
+    let bookId = null;
+  
+    // If the book already exists, set the bookId to the existing book's ID otherwise insert a new record 
+    // and set bookId to the newly inserted book's ID.
     if (bookInfo.length === 0) {
       let [insertResult] = await conn.query(qry, params);
       bookId = insertResult.insertId;
+    } else {
+      bookId = bookInfo[0].bookId;
     }
 
     // SMFIX hard coding the UserID until the login page is created
     // and we can setup session to store the userid.
 
+    // SMFIX more harding
     // insert into user_books table with hard coded userId
     let userId = 1; // hard coded userId
+
+    // Check if the user alread has the book saved in thier list.
+   
+    let [userBooks] = await conn.query(
+      `select * from User_Books where userId = ? and bookId = ?`,
+      [userId, bookId]
+    );
+
+    // If the user already has saved the book we exit as we don't want to insert a duplicate record.
+    if (userBooks.length > 0) {
+        await conn.commit();
+      return res.send({ success: false, message: "Book already saved" });
+    }
+
+    // The user doesn't have the book saved, insert the record into the User_Books table.
     let userBooksQry = `insert into User_Books (userId, bookId) values (?, ?)`;
     let userBooksParams = [userId, bookId];
+
     await conn.query(userBooksQry, userBooksParams);
     await conn.commit();
     return res.send({ success: true , message: "Book saved successfully" });
+
   } catch (error) {
     if (conn) {
       await conn.rollback();
