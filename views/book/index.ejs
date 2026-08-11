@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <%- include('../partials/head') %>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Search</title>
+
 </head>
 <body>
     <% const safeSearch = typeof search !== 'undefined' ? search : { title: '', author: '' }; %>
@@ -30,18 +32,25 @@
     <h2>Results (<%= safeResults.length %>)</h2>
 
     <% if (safeResults.length > 0) { %>
-        <ul>
-            <% safeResults.forEach((book) => { %>
-                <li>
-                    <% if (book.coverUrl) { %>
-                        <img src="<%= book.coverUrl %>" alt="Cover for <%= book.title %>" width="64">
-                    <% } %>
-                    <div><strong><%= book.title %></strong></div>
-                    <div><%= book.author %></div>
-                    <div><%= book.year || 'Unknown year' %></div>
-                </li>
-            <% }) %>
-        </ul>
+        <form method="POST" action="/book/save">
+            <ul>
+                <% safeResults.forEach((book) => { %>
+                    <li class="mb-3">
+                        <div id="<%= book.key %>" class="book-item" data-id="<%= book.key %>">
+                            <% if (book.coverUrl) { %>
+                                <img src="<%= book.coverUrl %>" alt="Cover for <%= book.title %>" width="180" name="coverUrl" data-cover-url="<%= book.coverUrl %>">
+                            <% } %>
+                            <div name="title" data-title="<%= book.title %>"><strong><%= book.title %></strong></div>
+                            <div name="author" data-author="<%= book.author %>"><%= book.author %></div>
+                            <div name="year" data-year="<%= book.year || 'Unknown year' %>"><%= book.year || 'Unknown year' %></div>
+                            <div name="isbn" data-isbn="<%= book.isbn %>">ISBN:<%= book.isbn || 'Unknown ISBN' %></div>
+                            <button name="editionKey" data-edition-key="<%= book.editionKey %>">Save Book</button>
+                        </div>
+                    </li>
+                <% }) %>
+            </ul>
+        </form>
     <% } %>
+    <script src="/js/book.js"></script>
 </body>
 </html>
