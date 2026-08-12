@@ -1,4 +1,5 @@
 import express from "express";
+import session from "express-session"
 import path  from "node:path";
 import { fileURLToPath } from 'url';
 // mysql connection pool setup.
@@ -18,6 +19,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 //for Express to get values using POST method
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// Keeps track of the logged in user
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+}));
 
 // all the routes are registered in /routes/index.mjs
 // this will allow us to keep the index.mjs slim.
