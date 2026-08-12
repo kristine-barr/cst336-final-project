@@ -34,7 +34,8 @@ app.use('/', (req, res) => {
     res.render("index");
 });
 
+const PORT = process.env.PORT || 3000;
 
-app.listen(3000, () => {
-  console.log("Express server running. http://localhost:3000");
+app.listen(PORT, () => {
+  console.log(`Express server running. http://localhost:${PORT}`);
 });
