@@ -4,7 +4,7 @@ const router = express.Router();
 import pool from "../db.mjs";
 
 router.get("/categories", async (req, res) => {
-    const userId = 1;  // Temporary until sessions are implemented
+    const userId = req.session.userId;
 
     try {
         const [categories] = await pool.query(`
@@ -50,7 +50,7 @@ router.get("/categories", async (req, res) => {
 });
 
 router.post("/categories/new", async (req, res) => {
-    const userId = 1; // temporary until sessions are connected
+    const userId = req.session.userId;
     
     const categoryName = req.body.categoryName;
 

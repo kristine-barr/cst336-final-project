@@ -20,11 +20,8 @@ router.get("/dashboard", (req, res) => {
 
 // Display the user's saved books 
 router.get("/library", async function (req, res) {
-
+    const userId = req.session.userId;
     try {
-
-        // Temporary user ID until login sessions are connected
-        let userId = 1;
 
         let sql = `
     SELECT
@@ -78,12 +75,10 @@ router.get("/library", async function (req, res) {
 
 // Remove a book from the user's library 
 router.post("/library/delete", async function (req, res) {
+    const userId = req.session.userId;
     try {
         // Get the selected userBookId from the form
         let userBookId = req.body.userBookId;
-
-        // Temporary user ID until login sessions are connected 
-        let userId = 1;
 
         // Delete only the selected book belonging to this user 
         let sql = `
