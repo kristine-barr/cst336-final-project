@@ -30,7 +30,7 @@ h1 {
 /* BOOK COVERS */
 .book-cover {
     display: block;
-    width: 140px;
+    width: 200px;
     height: 200px;
     object-fit: cover;
     margin: 0 auto 20px;

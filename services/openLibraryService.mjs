@@ -88,8 +88,8 @@ export async function searchBooks({ title = "", author = "" } = {}) {
 
     const response = await httpClient.get(`/search.json?${params.toString()}&fields=${FIELDS_LIST}`);
 
-    console.log(response.data.docs[0])
-    console.log(response.data.docs[0].editions)
+    // console.log(response.data.docs[0])
+    // console.log(response.data.docs[0].editions)
 
     const docs = Array.isArray(response.data?.docs) ? response.data.docs : [];
 
@@ -105,8 +105,8 @@ export async function getBookById(id) {
   const keyId = cleanText(id);
 
     // check if the keyId contains books. We will use that to query information about the book to save. 
-    console.log("keyId:", keyId);
-    console.log("keyId includes 'books':", keyId.toLowerCase().includes("books"));
+    // console.log("keyId:", keyId);
+    // console.log("keyId includes 'books':", keyId.toLowerCase().includes("books"));
   if (!keyId || !keyId.toLowerCase().includes("books")) {
     const err = new Error("Please provide book editions key id");
     err.statusCode = 400;
@@ -117,8 +117,8 @@ export async function getBookById(id) {
     
     const response = await httpClient.get(`${keyId}/`);
 
-    console.log(response.data.docs[0])
-    console.log(response.data.docs[0].editions)
+    // console.log(response.data.docs[0])
+    // console.log(response.data.docs[0].editions)
 
     const docs = Array.isArray(response.data?.docs) ? response.data.docs : [];
 
