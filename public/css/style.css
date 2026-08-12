@@ -1,0 +1,107 @@
+body {
+    text-align: center;
+    color: #27293D;
+}
+
+h1 {
+    font-size: 50px;
+    color: #27293D;
+}
+
+/* HERO */
+.hero {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.hero p {
+    margin-top: 15px;
+}
+
+/* BOOK COVERS */
+.book-cover {
+    display: block;
+    width: 140px;
+    height: 200px;
+    object-fit: cover;
+    margin: 0 auto 20px;
+}
+
+/* NAVIGATION */
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 45px;
+    margin-bottom: 10px;
+    padding: 15px;
+}
+
+nav a {
+    display: inline-block;
+    padding: 8px 14px;
+    background-color: white;
+    color: #446E8F;
+    border: 2px solid #446E8F;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+nav a:hover {
+    color: #27293D;
+    text-decoration: underline;
+}
+
+/* BOOTSTRAP OVERRIDES */
+.card {
+    border: 2px solid #446E8F;
+    border-radius: 10px;
+    color: #27293D;
+}
+
+.card h2 {
+    font-family: Georgia, serif;
+    color: #27293D;
+}
+
+/* Dashboard Buttons */
+
+.btn-primary {
+    background-color: white;
+    color: #446E8F;
+    border: 2px solid #446E8F;
+}
+
+.btn-outline-danger {
+    border: 1px solid #dc3545;
+    padding: 7px 13px;
+}
+
+.btn-primary:hover {
+    background-color: #446E8F;
+    color: white;
+    border-color: #446E8F;
+}
+
+/* Navigation */
+nav.container {
+    max-width: 1100px;
+}
+
+.btn-outline-primary {
+    color: #446E8F;
+    border-color: #446E8F;
+}
+
+.btn-outline-primary:hover {
+    background-color: #446E8F;
+    border-color: #446E8F;
+    color: white;
+}
+
+/* BOOK SEARCH */
+.book-search-label.text-left {
+    display: block;
+    text-align: left;
+}

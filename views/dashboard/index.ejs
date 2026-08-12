@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("../partials/head") %>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+    <%- include("../partials/nav") %>
+
+    <div class="hero">
+
+        <img src="/img/welcome-logo.png" alt="Open book illustration">
+
+        <p>Manage your personal bookshelf and discover new books.</p>
+
+    </div>
+
+    <div class="container">
+
+        <div class="row justify-content-center g-4">
+
+            <div class="col-md-4">
+
+                <div class="card p-4 h-100">
+
+                    <h2>My Library</h2>
+
+                    <p>View and manage the books you have saved.</p>
+
+                    <a href="/library" class="btn btn-primary">
+                        View My Library
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="card p-4 h-100">
+
+                    <h2>Search Books</h2>
+
+                    <p>Search for books and add them to your collection.</p>
+
+                    <a href="/book" class="btn btn-primary">
+                        Search Books
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <%- include("../partials/footer") %>
+</body>
+
+</html>
