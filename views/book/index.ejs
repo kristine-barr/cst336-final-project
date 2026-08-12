@@ -1,60 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <%- include('../partials/head') %>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Search</title>
-
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Book Search</title>
+        <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
-    <% const safeSearch = typeof search !== 'undefined' ? search : { title: '', author: '' }; %>
-    <% const safeResults = Array.isArray(results) ? results : []; %>
-    <% const safeError = typeof error === 'string' ? error : null; %>
+    <%- include("../partials/nav") %>
+        <% const safeSearch=typeof search !=='undefined' ? search : { title: '' , author: '' }; %>
+            <% const safeResults=Array.isArray(results) ? results : []; %>
+                <% const safeError=typeof error==='string' ? error : null; %>
+                    <div class="container">
+                        <h1>Book Search</h1>
+                        <p>Search OpenLibrary by title, author, or both.</p>
 
-    <h1>Book Search</h1>
-    <p>Search OpenLibrary by title, author, or both.</p>
+                        <form method="get" action="/book/search">
+                            <div class="row mb-3 mt-3">
+                                <div class="col-md-6 mb-3">
+                                    <label for="title" class="form-label fw-semibold book-search-label text-left">Title</label>
+                                    <input id="title" name="title" type="text" value="<%= safeSearch.title || '' %>"  class="form-control form-control-lg" >
+                                </div>
 
-    <form method="get" action="/book/search">
-        <label for="title">Title</label>
-        <input id="title" name="title" type="text" value="<%= safeSearch.title || '' %>">
+                                <div class="col-md-6 mb-3">
+                                    <label for="author" class="form-label fw-semibold book-search-label text-left">Author</label>
+                                    <input id="author" name="author" type="text" value="<%= safeSearch.author || '' %>" class="form-control form-control-lg">
+                                </div>
+                                <div class="col-6 mx-auto">
+                                    <button type="submit" class="btn btn-primary w-100">Search</button>
+                                </div>
 
-        <label for="author">Author</label>
-        <input id="author" name="author" type="text" value="<%= safeSearch.author || '' %>">
+                                <!-- <button type="submit" class="btn btn-primary">Search</button> -->
+                            </div>
+  
+                        </form>
 
-        <button type="submit">Search</button>
-    </form>
-
-    <% if (safeError) { %>
-        <p style="color: #b00020;"><%= safeError %></p>
-    <% } %>
-
-    <h2>Results (<%= safeResults.length %>)</h2>
-
-    <% if (safeResults.length > 0) { %>
-        <form method="POST" action="/book/save">
-            <ul>
-                <% safeResults.forEach((book) => { %>
-                    <li class="mb-3">
-                        <div id="<%= book.key %>" class="book-item" data-id="<%= book.key %>">
-                            <% if (book.coverUrl) { %>
-                                <img src="<%= book.coverUrl %>" alt="Cover for <%= book.title %>" width="180" name="coverUrl" data-cover-url="<%= book.coverUrl %>">
+                        <% if (safeError) { %>
+                            <p style="color: #b00020;">
+                                <%= safeError %>
+                            </p>
                             <% } %>
-                            <div name="title" data-title="<%= book.title %>"><strong><%= book.title %></strong></div>
-                            <div name="author" data-author="<%= book.author %>"><%= book.author %></div>
-                            <div name="year" data-year="<%= book.year || 'Unknown year' %>"><%= book.year || 'Unknown year' %></div>
-                            <div name="isbn" data-isbn="<%= book.isbn %>">ISBN:<%= book.isbn || 'Unknown ISBN' %></div>
-                            <button name="editionKey" data-edition-key="<%= book.editionKey %>">Save Book</button>
-                        </div>
-                    </li>
-                <% }) %>
-            </ul>
-        </form>
-    <% } %>
-    <script src="/js/book.js"></script>
-    <h1>Books page</h1>
-    <p>Demo of the book router and index</p>
 
-    <a href="/dashboard">Back to Dashboard</a>
+                                <h2>Results (<%= safeResults.length %>)</h2>
+
+                                <form method="POST" action="/book/save" class="row justify-content-center g-4 mt-2">
+                                    <% if (safeResults.length> 0) { %>
+                                        <% safeResults.forEach((book)=> { %>
+                                            <div class="col-md-5 col-lg-4">
+                                                <div class="card book-card p-4 h-100 book-item"
+                                                    data-id="<%= book.key %>">
+
+                                                    <% if (book.coverUrl && book.coverUrl.trim() !=='' ) { %>
+                                                        <img src="<%= book.coverUrl.trim() %>"
+                                                            alt="Cover for <%= book.title %>" class="book-cover"
+                                                            data-cover-url="<%= book.coverUrl %>"
+                                                            onerror="this.onerror=null; this.src='/img/missing-book-transparent.png';">
+
+                                                        <% } else { %>
+
+                                                            <img src="/img/missing-book-transparent.png"
+                                                                data-cover-url="<%= book.coverUrl %>"
+                                                                alt="No cover available" class="book-cover">
+
+                                                            <% } %>
+
+                                                                <div name="title" data-title="<%= book.title %>">
+                                                                    <h2>
+                                                                        <%= book.title %>
+                                                                    </h2>
+                                                                </div>
+                                                                <div name="author" data-author="<%= book.author %>">
+                                                                    <p>
+                                                                        <strong>Author:</strong>
+                                                                        <%= book.author %>
+                                                                    </p>
+                                                                </div>
+
+                                                                <div name="year"
+                                                                    data-year="<%= book.year || 'Unknown year' %>">
+                                                                    <p><strong>Year:</strong>
+                                                                        <%= book.year || 'Unknown year' %>
+                                                                    </p>
+                                                                </div>
+                                                                <div name="isbn" data-isbn="<%= book.isbn %>">
+                                                                    <p><strong>ISBN:</strong>
+                                                                        <%= book.isbn || 'Unknown ISBN' %>
+                                                                    </p>
+                                                                </div>
+                                                                <button name="editionKey"
+                                                                    data-edition-key="<%= book.editionKey %>"
+                                                                    class="btn btn-primary">Save
+                                                                    Book</button>
+                                                </div>
+                                            </div>
+                                            <% }); %>
+                                        <% }; %>
+                                </form>
+                    </div>
+
+                    <script src="/js/book.js"></script>
+
+                    <a href="/dashboard">Back to Dashboard</a>
 </body>
+
 </html>
