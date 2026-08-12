@@ -9,6 +9,10 @@ import { requireAuth } from "../middleware/auth.mjs";
 
 const router = Router();
 
+router.get('/', (req, res) => {
+	res.redirect('/dashboard');
+});
+
 // Public routes (no login required)
 router.use('/', authRouter);
 
