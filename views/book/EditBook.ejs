@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include("../partials/head") %>
+        <!-- add the partials for head and footer. this is a dem -->
+        <title>My Library - Edit Book Info</title>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+    <%- include("../partials/nav") %>
+        <div class="container">
+
+
+            <div class="row justify-content-center g-4 mt-2">
+
+                <div class="col-md-8 col-lg-6">
+                    <h1>Book Details &amp; Rating</h1>
+                    <p class="page-subtitle">
+                        Review the book’s information, update your reading status, and add or change your rating.
+                    </p>
+                    <form method="POST" action="/book/edit">
+                        <div class="card book-card p-4 h-100 book-item">
+                            <img src="<%= book.coverUrl.trim() %>" alt="Cover for <%= book.title %>" class="book-cover"
+                                data-cover-url="<%= book.coverUrl %>"
+                                onerror="this.onerror=null; this.src='/img/missing-book-transparent.png';">
+                            <div name="title" data-title="<%= book.title %>">
+                                <h2>
+                                    <%= book.title %>
+                                </h2>
+                            </div>
+                            <div name="author" data-author="<%= book.author %>">
+                                <p>
+                                    <strong>Author:</strong>
+                                    <%= book.author %>
+                                </p>
+                            </div>
+                            <div name="year" data-year="<%= book.year || 'Unknown year' %>">
+                                <p><strong>Year:</strong>
+                                    <%= book.year || 'Unknown year' %>
+                                </p>
+                            </div>
+                            <div name="isbn" data-isbn="<%= book.isbn %>">
+                                <p><strong>ISBN:</strong>
+                                    <%= book.isbn || 'Unknown ISBN' %>
+                                </p>
+                            </div>
+
+                            <input type="hidden" name="userBookId" value="<%= book.userBookId %>">
+                            <div class="mb-3">
+                                Set Reading Status:
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" name="readingStatus" value="Want to Read"
+                                        class="form-check-input " <%=book.readingStatus==="Want to Read" ? "checked"
+                                        : "" %>
+                                    >
+                                    <label for="readingStatus" class="form-check-label">Want to Read</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" name="readingStatus" value="Reading" class="form-check-input"
+                                        <%=book.readingStatus==="Reading" ? "checked" : "" %>
+                                    >
+                                    <label for="readingStatus" class="form-check-label">Reading</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" name="readingStatus" value="Finished" class="form-check-input"
+                                        <%=book.readingStatus==="Finished" ? "checked" : "" %>
+                                    >
+                                    <label for="readingStatus" class="form-check-label">Finished</label>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                Set Rating:
+
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" name="rating" value="None" class="form-check-input"
+                                        <%=book.rating===null ? "checked" : "" %>
+                                    >
+                                    <label for="rating" class="form-check-label">None</label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" name="rating" value="1" class="form-check-input"
+                                        <%=book.rating===1 ? "checked" : "" %>
+                                    >
+                                    <label for="rating" class="form-check-label">1</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" name="rating" value="2" class="form-check-input"
+                                        <%=book.rating===2 ? "checked" : "" %>
+                                    >
+                                    <label for="rating" class="form-check-label">2</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" name="rating" value="3" class="form-check-input"
+                                        <%=book.rating===3 ? "checked" : "" %>
+                                    >
+                                    <label for="rating" class="form-check-label">3</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" name="rating" value="4" class="form-check-input"
+                                        <%=book.rating===4 ? "checked" : "" %>
+                                    >
+                                    <label for="rating" class="form-check-label">4</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" name="rating" value="5" class="form-check-input"
+                                        <%=book.rating===5 ? "checked" : "" %>
+                                    >
+                                    <label for="rating" class="form-check-label">5</label>
+                                </div>
+                            </div>
+                            <div class="col-6 mx-auto">
+                                <button type="submit" class="btn btn-primary w-100">Update Status</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <%- include("../partials/footer") %>
+</body>
+
+</html>

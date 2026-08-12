@@ -12,7 +12,11 @@ router.get("/book/edit", async (req, res) => {
             User_Books.userBookId,
             User_Books.readingStatus,
             User_Books.rating,
-            Books.title
+            Books.title,
+            Books.bookCoverUrl as coverUrl,
+            Books.author,
+            Books.publishYear as year,
+            Books.isbn
         FROM User_Books
         JOIN Books
             ON User_Books.bookId = Books.bookId
@@ -24,7 +28,7 @@ router.get("/book/edit", async (req, res) => {
         return res.status(404).send("Book not found on your shelf.");
     }
 
-    res.render("book/EdBook", {
+    res.render("book/EditBook", {
         book: books[0]
     });
 });
