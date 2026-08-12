@@ -105,3 +105,98 @@ nav.container {
     display: block;
     text-align: left;
 }
+
+/* =========================
+   LOGIN PAGE
+   ========================= */
+
+.login-page {
+    background-image: url("/img/login-background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* Optional dark overlay so the login card stands out more */
+.login-page::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 0;
+}
+
+.login-container {
+    position: relative;
+    z-index: 1;
+    margin-top: 80px;
+    margin-bottom: 80px;
+}
+
+.login-card {
+    background: rgb(255 255 255 / 0.46);
+    padding: 40px;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgb(0 0 0 / 0.62);
+}
+
+.login-card:hover {
+    background: rgb(255 255 255 / 0.57);
+}
+
+.login-title {
+    font-family: Georgia, serif;
+    font-size: 42px;
+    color: rgb(0 0 0 / 0.62);
+    margin-bottom: 10px;
+}
+
+.login-subtitle {
+    color: rgb(0 0 0 / 0.62);
+    margin-bottom: 30px;
+}
+
+.login-label {
+    font-weight: bold;
+    color: #5b3a29;
+}
+
+.login-input {
+    border: 1px solid #c9b8aa;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.login-input:focus {
+    border-color: #8b5e3c;
+    box-shadow: 0 0 0 0.2rem rgba(139, 94, 60, 0.15);
+}
+
+.login-button {
+    width: 100%;
+    background: #8b5e3c;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 16px;
+}
+
+.login-button:hover {
+    background: #6f472e;
+}
+
+.login-register-text {
+    margin-top: 20px;
+    color: rgb(0 0 0 / 0.62);
+}
+
+.login-register-text a {
+    color: rgb(0 0 0 / 0.44);
+    font-weight: 600;
+}
+
+.login-register-text a:hover {
+    color: #020b2b;
+}

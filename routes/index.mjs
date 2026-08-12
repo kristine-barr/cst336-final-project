@@ -2,6 +2,7 @@ import { Router } from 'express';
 import bookRouter from './book.mjs';
 import adminRouter from './admin.mjs';
 import dashboardRouter from "./dashboard.mjs";
+import authRouter from './auth.mjs';
 
 const router = Router();
 
@@ -9,5 +10,6 @@ const router = Router();
 router.use('/', bookRouter);
 router.use('/', adminRouter);
 router.use('/', dashboardRouter);
+router.use('/', authRouter);
 
 export default router;
