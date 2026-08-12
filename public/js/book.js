@@ -1,4 +1,8 @@
 let bookItems = document.querySelectorAll(".book-item");
+let toastMsg = document.getElementById("liveToast");
+let toastTitle = document.getElementById("toastTitle");
+let toastTitleAction = document.getElementById("toastTitleAction");
+let toastMsgBody = document.getElementById("toastMsgBody");
 
 bookItems.forEach((item) => {
   item.addEventListener("click", handleBookItemClick);
@@ -41,6 +45,14 @@ async function postData(url, body) {
     });
     let data = await resp.json();
 
+    if(data.message) {
+       const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastMsg);
+      toastMsgBody.textContent = data.message;
+      toastTitle.textContent = "Book Admin";
+      toastTitleAction.textContent = "Save Book";
+
+      toastBootstrap.show();
+    }
     if (data.metadata && data.metadata.status === 400) {
       throw new Error(data.metadata.error);
     }

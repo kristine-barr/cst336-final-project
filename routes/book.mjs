@@ -42,6 +42,7 @@ router.post("/book/save", async (req, res) => {
   let isbn = req.body.isbn;
   let coverUrl = req.body.coverUrl;
   let editionKey = req.body.editionKey;
+  let message = "";
 
   let qry = `insert into Books (olId, title, author, publishYear, isbn, bookCoverUrl, editionKey) 
               values (?, ?, ?, ?, ?, ?, ?)`;
@@ -81,7 +82,8 @@ router.post("/book/save", async (req, res) => {
     // If the user already has saved the book we exit as we don't want to insert a duplicate record.
     if (userBooks.length > 0) {
         await conn.commit();
-      return res.send({ success: false, message: "Book already saved" });
+        message = `${title} is already in your library`;
+      return res.send({ success: false, message: message });
     }
 
     // The user doesn't have the book saved, insert the record into the User_Books table.
@@ -90,7 +92,8 @@ router.post("/book/save", async (req, res) => {
 
     await conn.query(userBooksQry, userBooksParams);
     await conn.commit();
-    return res.send({ success: true , message: "Book saved successfully" });
+    message = `${title} has been successfully added to your library`;
+    return res.send({ success: true , message: message });
 
   } catch (error) {
     if (conn) {

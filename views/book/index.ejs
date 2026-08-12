@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="/css/style.css">
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <%- include("../partials/nav") %>
         <% const safeSearch=typeof search !=='undefined' ? search : { title: '' , author: '' }; %>
             <% const safeResults=Array.isArray(results) ? results : []; %>
@@ -21,13 +21,17 @@
                         <form method="get" action="/book/search">
                             <div class="row mb-3 mt-3">
                                 <div class="col-md-6 mb-3">
-                                    <label for="title" class="form-label fw-semibold book-search-label text-left">Title</label>
-                                    <input id="title" name="title" type="text" value="<%= safeSearch.title || '' %>"  class="form-control form-control-lg" >
+                                    <label for="title"
+                                        class="form-label fw-semibold book-search-label text-left">Title</label>
+                                    <input id="title" name="title" type="text" value="<%= safeSearch.title || '' %>"
+                                        class="form-control form-control-lg">
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    <label for="author" class="form-label fw-semibold book-search-label text-left">Author</label>
-                                    <input id="author" name="author" type="text" value="<%= safeSearch.author || '' %>" class="form-control form-control-lg">
+                                    <label for="author"
+                                        class="form-label fw-semibold book-search-label text-left">Author</label>
+                                    <input id="author" name="author" type="text" value="<%= safeSearch.author || '' %>"
+                                        class="form-control form-control-lg">
                                 </div>
                                 <div class="col-6 mx-auto">
                                     <button type="submit" class="btn btn-primary w-100">Search</button>
@@ -35,7 +39,7 @@
 
                                 <!-- <button type="submit" class="btn btn-primary">Search</button> -->
                             </div>
-  
+
                         </form>
 
                         <% if (safeError) { %>
@@ -97,13 +101,28 @@
                                                 </div>
                                             </div>
                                             <% }); %>
-                                        <% }; %>
+                                                <% }; %>
                                 </form>
                     </div>
-
+                    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                        <div id="liveToast" class="toast  " role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header">
+                                <!-- <img src="..." class="rounded me-2" alt="..."> -->
+                                <strong class="me-auto" id="toastTitle">Author Admin</strong>
+                                <small id="toastTitleAction">Delete Author</small>
+                                <button type="button" class="btn-close" data-bs-dismiss="toast"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body" id="toastMsgBody">
+                                msg body
+                            </div>
+                        </div>
+                    </div>
                     <script src="/js/book.js"></script>
 
                     <a href="/dashboard">Back to Dashboard</a>
+
+                    <%- include("../partials/footer") %>
 </body>
 
 </html>
