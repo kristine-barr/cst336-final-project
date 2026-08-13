@@ -28,6 +28,12 @@
                             Create an account to start your bookshelf.
                         </p>
 
+                        <% if (error) { %>
+                            <div class="alert alert-danger" role="alert">
+                                <%= error %>
+                            </div>
+                        <% } %>
+
                         <!-- Registration form -->
                         <form method="POST" action="/register">
 
@@ -42,6 +48,7 @@
                                         class="form-control"
                                         id="firstName"
                                         name="firstName"
+                                        value="<%= formData.firstName || '' %>"
                                         required>
                             </div>
 
@@ -56,6 +63,7 @@
                                         class="form-control"
                                         id="lastName"
                                         name="lastName"
+                                        value="<%= formData.lastName || '' %>"
                                         required>
                             </div>
 
@@ -70,6 +78,7 @@
                                         class="form-control"
                                         id="email"
                                         name="email"
+                                        value="<%= formData.email || '' %>"
                                         required>
                             </div>
 

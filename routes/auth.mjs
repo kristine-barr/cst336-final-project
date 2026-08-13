@@ -6,7 +6,9 @@ const router = express.Router();
 
 // Showing login page
 router.get("/login", (req, res) => {
-    res.render("./auth/login");
+    res.render("./auth/login", {
+        error: null
+    });
 });
 
 // Checks the user's login information
@@ -25,7 +27,9 @@ router.post("/login", async(req, res) => {
 
         // If no account matches the email, stop login
         if (users.length === 0) {
-            return res.status(401).send("Invalid email or password");
+            return res.status(401).render("./auth/login", {
+                error: "Invalid email or password."
+            });
         }
 
         // Grab the user found in the database
@@ -39,7 +43,9 @@ router.post("/login", async(req, res) => {
 
         // Stop if the password does not match
         if (!passwordMatches) {
-            return res.status(401).send("Invalid password or password");
+            return res.status(401).render("./auth/login", {
+                error: "Invalid email or password."
+            });
         }
 
         // Save the logged-in user's ID in the session
@@ -59,7 +65,10 @@ router.post("/login", async(req, res) => {
 
 // Shows the register page
 router.get("/register", (req, res) => {
-    res.render("./auth/register");
+    res.render("./auth/register", {
+        error: null,
+        formData: {}
+    });
 });
 
 // Creates a new user account
@@ -78,7 +87,14 @@ router.post("/register", async (req, res) => {
 
         // Stop if the email is already registered
         if (existingUsers.length > 0) {
-            return res.status(400).send("An account with this email already exists.");
+            return res.status(400).render("./auth/register", {
+                error: "An account with this email already exists.",
+                formData: {
+                    firstName,
+                    lastName,
+                    email
+                }
+            });
         }
 
         // Hash the password before saving it

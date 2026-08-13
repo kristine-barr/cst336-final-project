@@ -28,6 +28,12 @@
                         Sign in to access your bookshelf.
                     </p>
 
+                    <% if (error) { %>
+                        <div class="alert alert-danger" role="alert">
+                            <%= error %>
+                        </div>
+                    <% } %>
+
                     <form method="POST" action="/login">
 
                         <div class="mb-3 text-start">
