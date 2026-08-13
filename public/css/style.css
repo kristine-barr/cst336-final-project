@@ -200,3 +200,77 @@ nav {
     transition: all 0.4s ease-in-out;
     cursor: pointer;
 }
+
+/* =========================
+   ADD BOOK PAGE
+   ========================= */
+
+.add-book-page {
+    background: #f6f1e8;
+}
+
+.add-book-container {
+    margin-top: 60px;
+    margin-bottom: 70px;
+}
+
+.add-book-card {
+    background: #fffdf8;
+    padding: 40px;
+    border: 1px solid #c9b8aa;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.10);
+}
+
+.add-book-title {
+    font-family: Georgia, serif;
+    color: #5b3a29;
+    margin-bottom: 10px;
+}
+
+.add-book-subtitle {
+    color: #7a6659;
+    margin-bottom: 30px;
+}
+
+.add-book-label {
+    font-weight: bold;
+    color: #5b3a29;
+}
+
+.add-book-input {
+    border: 1px solid #c9b8aa;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.add-book-input:focus {
+    border-color: #8b5e3c;
+    box-shadow: 0 0 0 0.2rem rgba(139, 94, 60, 0.15);
+}
+
+.add-book-button {
+    width: 100%;
+    background: #8b5e3c;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.add-book-button:hover {
+    background: #6f472e;
+}
+
+.add-book-back-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #8b5e3c;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.add-book-back-link:hover {
+    color: #5b3a29;
+    text-decoration: underline;
+}

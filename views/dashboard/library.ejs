@@ -19,6 +19,12 @@
 
         <h1 class="text-center">My Library</h1>
 
+        <% if (successMessage) { %>
+            <div class="alert alert-success" role="alert">
+                <%= successMessage %>
+            </div>
+        <% } %>
+
         <p class="text-center">View and manage your saved books.</p>
 
         <% if (books.length === 0) { %>

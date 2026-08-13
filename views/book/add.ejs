@@ -12,106 +12,107 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
-<body class="d-flex flex-column min-vh-100">
+<body class="add-book-page d-flex flex-column min-vh-100">
 
-<!-- Shared navigation -->
 <%- include("../partials/nav") %>
 
-<div class="container mt-4 mb-5">
+<div class="container add-book-container">
 
     <div class="row justify-content-center">
 
         <div class="col-md-7 col-lg-6">
 
-            <!-- Manual Add Book form -->
-            <div class="card p-4">
+            <div class="add-book-card">
 
-                <h1 class="text-center mb-3">Add Book</h1>
+                <h1 class="add-book-title">Add Book</h1>
 
-                <p class="text-center">
+                <p class="add-book-subtitle">
                     Add a book manually to your bookshelf.
                 </p>
 
-                <!-- Sends the entered book information to the server -->
+                <% if (error) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= error %>
+                    </div>
+                <% } %>
+
                 <form method="POST" action="/book/add">
 
-                    <!-- Book title -->
                     <div class="mb-3 text-start">
-                        <label for="title" class="form-label fw-semibold">
+                        <label for="title" class="form-label add-book-label">
                             Title
                         </label>
 
                         <input
                                 type="text"
-                                class="form-control"
+                                class="form-control add-book-input"
                                 id="title"
                                 name="title"
+                                value="<%= formData.title || '' %>"
                                 required>
                     </div>
 
-                    <!-- Author -->
                     <div class="mb-3 text-start">
-                        <label for="author" class="form-label fw-semibold">
+                        <label for="author" class="form-label add-book-label">
                             Author
                         </label>
 
                         <input
                                 type="text"
-                                class="form-control"
+                                class="form-control add-book-input"
                                 id="author"
                                 name="author"
+                                value="<%= formData.author || '' %>"
                                 required>
                     </div>
 
-                    <!-- ISBN -->
                     <div class="mb-3 text-start">
-                        <label for="isbn" class="form-label fw-semibold">
+                        <label for="isbn" class="form-label add-book-label">
                             ISBN
                         </label>
 
                         <input
                                 type="text"
-                                class="form-control"
+                                class="form-control add-book-input"
                                 id="isbn"
-                                name="isbn">
+                                name="isbn"
+                                value="<%= formData.isbn || '' %>">
                     </div>
 
-                    <!-- Publication year -->
                     <div class="mb-3 text-start">
-                        <label for="publishYear" class="form-label fw-semibold">
+                        <label for="publishYear" class="form-label add-book-label">
                             Publication Year
                         </label>
 
                         <input
                                 type="number"
-                                class="form-control"
+                                class="form-control add-book-input"
                                 id="publishYear"
                                 name="publishYear"
+                                value="<%= formData.publishYear || '' %>"
                                 min="0">
                     </div>
 
-                    <!-- Optional cover URL -->
                     <div class="mb-3 text-start">
-                        <label for="bookCoverUrl" class="form-label fw-semibold">
+                        <label for="bookCoverUrl" class="form-label add-book-label">
                             Cover Image URL
                         </label>
 
                         <input
                                 type="url"
-                                class="form-control"
+                                class="form-control add-book-input"
                                 id="bookCoverUrl"
-                                name="bookCoverUrl">
+                                name="bookCoverUrl"
+                                value="<%= formData.bookCoverUrl || '' %>">
                     </div>
 
-                    <!-- Submit button -->
-                    <button type="submit" class="btn btn-primary w-100">
+                    <button type="submit" class="add-book-button">
                         Add Book
                     </button>
 
                 </form>
 
-                <!-- Back to library -->
-                <a href="/library" class="mt-3">
+                <a href="/library" class="add-book-back-link">
                     Back to My Library
                 </a>
 

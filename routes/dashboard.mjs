@@ -79,8 +79,15 @@ router.get("/library", async function (req, res) {
 
         const [rows] = await pool.query(sql, [userId]);
 
+        // Grab the success message from the session
+        const successMessage = req.session.successMessage;
+
+        // Clear it so it only shows once
+        delete req.session.successMessage;
+
         res.render("./dashboard/library", {
-            books: rows
+            books: rows,
+            successMessage
         });
 
     } catch (err) {

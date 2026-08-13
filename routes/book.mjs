@@ -1,5 +1,6 @@
 import express from "express";
 import pool from "../db.mjs";
+import { randomUUID } from "node:crypto";
 const router = express.Router();
 
 import { searchBooks, getBookById } from "../services/openLibraryService.mjs";
@@ -10,6 +11,135 @@ router.get("/book", (req, res) => {
     results: [],
     error: null,
   });
+});
+
+// Shows the manual Add Book page
+router.get("/book/add", (req, res) => {
+
+  // Send logged-out users back to the login page
+  if (!req.session.userId) {
+    return res.redirect("/login");
+  }
+
+  res.render("./book/add", {
+    error: null,
+    formData: {}
+  });
+});
+
+// Adds a manually entered book to the user's library
+router.post("/book/add", async (req, res) => {
+
+  // Make sure the user is logged in
+  if (!req.session.userId) {
+    return res.redirect("/login");
+  }
+
+  // Grab the information from the Add Book form
+  const { title, author, isbn, publishYear, bookCoverUrl } = req.body;
+
+  // Clean up the required text fields
+  const cleanTitle = title?.trim();
+  const cleanAuthor = author?.trim();
+
+  // Make sure title and author were actually entered
+  if (!cleanTitle || !cleanAuthor) {
+    return res.status(400).render("./book/add", {
+      error: "Title and author are required.",
+      formData: req.body
+    });
+  }
+
+  // Get the logged-in user's ID from their session
+  const userId = req.session.userId;
+
+  // Manual books do not have an Open Library ID,
+  // so we create our own unique ID
+  const olId = `manual-${randomUUID()}`;
+
+  // Empty optional fields should be stored as NULL
+  const cleanIsbn = isbn?.trim() || null;
+  const cleanYear = publishYear ? Number(publishYear) : null;
+
+  // Reject invalid publication years
+  if (cleanYear !== null && (Number.isNaN(cleanYear) || cleanYear < 0)) {
+    return res.status(400).render("./book/add", {
+      error: "Please enter a valid publication year.",
+      formData: req.body
+    });
+  }
+  const cleanCoverUrl = bookCoverUrl?.trim() || null;
+
+  // Check if the ISBN is already used by another book
+  if (cleanIsbn) {
+    const [existingBooks] = await pool.query(
+        "SELECT bookId FROM Books WHERE isbn = ?",
+        [cleanIsbn]
+    );
+
+    if (existingBooks.length > 0) {
+      return res.status(400).render("./book/add", {
+        error: "A book with this ISBN already exists.",
+        formData: req.body
+      });
+    }
+  }
+
+  const conn = await pool.getConnection();
+
+  try {
+
+    // Start a transaction so both inserts succeed together
+    await conn.beginTransaction();
+
+    // Add the book to the Books table
+    const [bookResult] = await conn.query(
+        `INSERT INTO Books
+       (olId, title, author, isbn, publishYear, bookCoverUrl)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+        [
+          olId,
+          cleanTitle,
+          cleanAuthor,
+          cleanIsbn,
+          cleanYear,
+          cleanCoverUrl
+        ]
+    );
+
+    // Get the new book's database ID
+    const bookId = bookResult.insertId;
+
+    // Connect the new book to the logged-in user
+    await conn.query(
+        `INSERT INTO User_Books (userId, bookId)
+       VALUES (?, ?)`,
+        [userId, bookId]
+    );
+
+    // Save both database changes
+    await conn.commit();
+
+    // Store a one-time success message for the library page
+    req.session.successMessage = `${title.trim()} was added to your library.`;
+
+    // Send the user to their library
+    res.redirect("/library");
+
+  } catch (error) {
+
+    // Undo the inserts if something fails
+    await conn.rollback();
+
+    console.error("Add Book error:", error);
+
+    res.status(500).send("Unable to add book.");
+
+  } finally {
+
+    // Give the database connection back to the pool
+    conn.release();
+  }
 });
 
 router.get("/book/search", async (req, res) => {
