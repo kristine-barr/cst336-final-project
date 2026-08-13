@@ -42,9 +42,11 @@ router.post("/login", async(req, res) => {
         );
 
         // Stop if the password does not match
-        return res.status(401).render("./auth/login", {
-            error: "Invalid email or password."
-        });
+        if (!passwordMatches) {
+            return res.status(401).render("./auth/login", {
+                error: "Invalid email or password."
+            });
+        }
 
         // Save the logged-in user's ID in the session
         req.session.userId = user.userId;
