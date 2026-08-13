@@ -43,6 +43,7 @@ router.post("/book/save", async (req, res) => {
   let coverUrl = req.body.coverUrl;
   let editionKey = req.body.editionKey;
   let message = "";
+  const userId = req.session.userId;
 
   let qry = `insert into Books (olId, title, author, publishYear, isbn, bookCoverUrl, editionKey) 
               values (?, ?, ?, ?, ?, ?, ?)`;
@@ -64,13 +65,6 @@ router.post("/book/save", async (req, res) => {
     } else {
       bookId = bookInfo[0].bookId;
     }
-
-    // SMFIX hard coding the UserID until the login page is created
-    // and we can setup session to store the userid.
-
-    // SMFIX more harding
-    // insert into user_books table with hard coded userId
-    let userId = 1; // hard coded userId
 
     // Check if the user alread has the book saved in thier list.
    

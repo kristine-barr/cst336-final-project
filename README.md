@@ -11,6 +11,7 @@ MYSQL_HOST="database hose URI"
 MYSQL_USER="database username"
 MYSQL_PASSWORD="database password"
 MYSQL_DATABASE="database name"
+SESSION_SECRET="your Secret"
 ```
 
 ### Install node packages and run app

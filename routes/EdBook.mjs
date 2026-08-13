@@ -4,7 +4,7 @@ const router = express.Router();
 import pool from "../db.mjs";
 
 router.get("/book/edit", async (req, res) => {
-    const userId = 1; // temporary
+    const userId = req.session.userId;
     const userBookId = req.query.userBookId;
 
     const [books] = await pool.query(`
@@ -34,7 +34,7 @@ router.get("/book/edit", async (req, res) => {
 });
 
 router.post("/book/edit", async (req, res) => {
-    const userId = 1; // temporary
+    const userId = req.session.userId;
 
     const userBookId = req.body.userBookId;
     const readStatus = req.body.readingStatus;

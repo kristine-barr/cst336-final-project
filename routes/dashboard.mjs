@@ -9,9 +9,26 @@ import pool from "../db.mjs";
 // ======================
 
 // Display the Dashboard 
-router.get("/dashboard", (req, res) => {
+router.get("/dashboard", async function (req, res) {
 
-    res.render("./dashboard/index");
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
+
+    try {
+        const [users] = await pool.query(
+            "SELECT firstName FROM Users WHERE userId = ?",
+            [req.session.userId]
+        );
+
+        res.render("./dashboard/index", {
+            firstName: users[0].firstName
+        });
+
+    } catch (err) {
+        console.error("Dashboard error:", err);
+        res.status(500).send("Unable to load dashboard.");
+    }
 });
 
 // ======================
@@ -21,10 +38,13 @@ router.get("/dashboard", (req, res) => {
 // Display the user's saved books 
 router.get("/library", async function (req, res) {
 
-    try {
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
 
-        // Temporary user ID until login sessions are connected
-        let userId = 1;
+    const userId = req.session.userId;
+    
+    try {
 
         let sql = `
     SELECT
@@ -78,12 +98,16 @@ router.get("/library", async function (req, res) {
 
 // Remove a book from the user's library 
 router.post("/library/delete", async function (req, res) {
+
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
+
+    const userId = req.session.userId;
+    
     try {
         // Get the selected userBookId from the form
         let userBookId = req.body.userBookId;
-
-        // Temporary user ID until login sessions are connected 
-        let userId = 1;
 
         // Delete only the selected book belonging to this user 
         let sql = `
